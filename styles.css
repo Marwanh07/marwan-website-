@@ -264,14 +264,27 @@ select {
   position: relative;
 }
 
+.hero-wave {
+  height: 100%;
+  inset: 0;
+  mask-image: radial-gradient(ellipse 82% 76% at 50% 53%, #000 18%, rgba(0, 0, 0, 0.78) 58%, transparent 100%);
+  opacity: 0.76;
+  pointer-events: none;
+  position: absolute;
+  width: 100%;
+  z-index: 0;
+}
+
 .hero-lockup {
   align-items: center;
   display: flex;
   flex-direction: column;
   margin: auto;
   max-width: 960px;
+  position: relative;
   text-align: center;
   width: 100%;
+  z-index: 1;
 }
 
 .hero-mark {
@@ -469,6 +482,7 @@ select {
   text-transform: uppercase;
   transform: translateX(-50%);
   transition: color var(--transition), opacity 500ms ease;
+  z-index: 1;
 }
 
 .hero-scroll i {
@@ -524,6 +538,12 @@ select {
 .section-title em {
   color: var(--muted);
   font-style: normal;
+}
+
+.about-section .section-title em,
+.contact-section .section-title em,
+.apps-section .section-title em {
+  color: var(--lime);
 }
 
 .section-note {

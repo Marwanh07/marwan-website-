@@ -39,6 +39,171 @@ window.addEventListener("scroll", requestScrollProgressUpdate, { passive: true }
 window.addEventListener("resize", requestScrollProgressUpdate);
 requestScrollProgressUpdate();
 
+const initializeHeroWave = () => {
+  const hero = document.querySelector(".hero-section");
+  const canvas = hero?.querySelector(".hero-wave");
+  const context = canvas?.getContext("2d");
+  if (!hero || !canvas || !context) return;
+
+  let width = 1;
+  let height = 1;
+  let ratio = 1;
+  let columns = 0;
+  let rows = 0;
+  let xPositions = [];
+  let depths = [];
+  let vertices = new Float32Array(0);
+  let elapsed = 0;
+  let previousFrame = null;
+  let frame = null;
+  let isVisible = hero.getBoundingClientRect().bottom > 0 &&
+    hero.getBoundingClientRect().top < window.innerHeight;
+  let disposed = false;
+  let intersectionObserver;
+
+  const stop = () => {
+    if (frame !== null) window.cancelAnimationFrame(frame);
+    frame = null;
+    previousFrame = null;
+  };
+
+  const draw = (time) => {
+    context.clearRect(0, 0, width, height);
+    const focalLength = Math.min(width * 0.9, height * 1.05);
+    const nearDepth = 1.8;
+    const horizon = height * 0.29;
+    const halfWidth = width * 0.9 * nearDepth / focalLength;
+
+    for (let row = 0; row < rows; row += 1) {
+      const depthProgress = row / (rows - 1);
+      const depth = depths[row];
+      const perspective = focalLength / depth;
+
+      for (let column = 0; column < columns; column += 1) {
+        const x = xPositions[column];
+        const normalizedX = x / halfWidth;
+        const wave = Math.sin(normalizedX * 5.8 + time * 0.55 + depthProgress * 3.1) * 0.11 +
+          Math.sin(normalizedX * 3.2 - time * 0.36 + depthProgress * 5.4) * 0.05;
+        const horizontalWave = Math.sin(normalizedX * 2.6 - time * 0.24 + depthProgress * 4.2) * 0.018;
+        const index = (row * columns + column) * 2;
+        vertices[index] = width * 0.5 + (x + horizontalWave) * perspective;
+        vertices[index + 1] = horizon + (0.9 + wave) * perspective;
+      }
+    }
+
+    context.lineWidth = 0.75;
+    context.strokeStyle = "#5795f5";
+    for (let row = 0; row < rows; row += 1) {
+      context.globalAlpha = 0.1 + (1 - row / (rows - 1)) * 0.12;
+      context.beginPath();
+      for (let column = 0; column < columns; column += 1) {
+        const index = (row * columns + column) * 2;
+        if (column === 0) context.moveTo(vertices[index], vertices[index + 1]);
+        else context.lineTo(vertices[index], vertices[index + 1]);
+      }
+      context.stroke();
+    }
+
+    context.globalAlpha = 0.16;
+    for (let column = 0; column < columns; column += 1) {
+      context.beginPath();
+      for (let row = 0; row < rows; row += 1) {
+        const index = (row * columns + column) * 2;
+        if (row === 0) context.moveTo(vertices[index], vertices[index + 1]);
+        else context.lineTo(vertices[index], vertices[index + 1]);
+      }
+      context.stroke();
+    }
+    context.globalAlpha = 1;
+  };
+
+  const start = () => {
+    if (disposed || frame !== null || !isVisible || document.hidden || reducedMotion.matches) return;
+    previousFrame = null;
+    frame = window.requestAnimationFrame(animate);
+  };
+
+  const animate = (now) => {
+    frame = null;
+    if (disposed || !isVisible || document.hidden || reducedMotion.matches) return;
+    if (previousFrame !== null) elapsed += (now - previousFrame) / 1000;
+    previousFrame = now;
+    draw(elapsed);
+    frame = window.requestAnimationFrame(animate);
+  };
+
+  const resize = () => {
+    const bounds = hero.getBoundingClientRect();
+    width = Math.max(1, bounds.width);
+    height = Math.max(1, bounds.height);
+    ratio = Math.min(window.devicePixelRatio || 1, width < 600 ? 1.25 : 1.5);
+    canvas.width = Math.round(width * ratio);
+    canvas.height = Math.round(height * ratio);
+    context.setTransform(ratio, 0, 0, ratio, 0, 0);
+    columns = width < 600 ? 17 : width < 900 ? 23 : 31;
+    rows = width < 600 ? 9 : 13;
+    xPositions = new Array(columns);
+    depths = new Array(rows);
+    vertices = new Float32Array(columns * rows * 2);
+
+    const focalLength = Math.min(width * 0.9, height * 1.05);
+    const nearDepth = 1.8;
+    const halfWidth = width * 0.9 * nearDepth / focalLength;
+    for (let column = 0; column < columns; column += 1) {
+      xPositions[column] = ((column / (columns - 1)) * 2 - 1) * halfWidth;
+    }
+    for (let row = 0; row < rows; row += 1) {
+      const progress = row / (rows - 1);
+      depths[row] = nearDepth + (12 - nearDepth) * progress ** 1.65;
+    }
+
+    draw(reducedMotion.matches ? 0 : elapsed);
+  };
+
+  const handleMotionPreference = () => {
+    if (reducedMotion.matches) {
+      stop();
+      draw(0);
+    } else {
+      start();
+    }
+  };
+
+  const handleVisibility = () => {
+    if (document.hidden) stop();
+    else start();
+  };
+
+  const cleanup = () => {
+    disposed = true;
+    stop();
+    intersectionObserver?.disconnect();
+    window.removeEventListener("resize", resize);
+    document.removeEventListener("visibilitychange", handleVisibility);
+    reducedMotion.removeEventListener("change", handleMotionPreference);
+  };
+
+  resize();
+  window.addEventListener("resize", resize, { passive: true });
+  document.addEventListener("visibilitychange", handleVisibility);
+  reducedMotion.addEventListener("change", handleMotionPreference);
+  window.addEventListener("pagehide", cleanup, { once: true });
+
+  if ("IntersectionObserver" in window) {
+    intersectionObserver = new IntersectionObserver(([entry]) => {
+      isVisible = entry.isIntersecting;
+      if (isVisible) start();
+      else stop();
+    });
+    intersectionObserver.observe(hero);
+  } else {
+    start();
+  }
+  if (reducedMotion.matches) stop();
+};
+
+initializeHeroWave();
+
 const assembleMonogram = () => {
   const mark = document.querySelector(".hero-mark");
   const letters = mark ? [...mark.querySelectorAll(".hero-monogram span")] : [];
