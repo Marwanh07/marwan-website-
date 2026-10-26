@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta
       name="description"
-      content="Marwan Hany — personal portfolio and RELYQON company contact."
+      content="Marwan Hany — software developer and CEO of RELYQON."
     />
     <title>Marwan Hany — Portfolio</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -17,6 +17,17 @@
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
+    <div class="ambient-sky" aria-hidden="true">
+      <span class="sky-star sky-star-one"></span>
+      <span class="sky-star sky-star-two"></span>
+      <span class="sky-star sky-star-three"></span>
+      <span class="sky-star sky-star-four"></span>
+      <span class="sky-star sky-star-five"></span>
+      <span class="sky-star sky-star-six"></span>
+    </div>
+    <div class="scroll-progress" aria-hidden="true">
+      <span class="scroll-progress-bar"></span>
+    </div>
     <div class="page-shell">
       <header class="site-header">
         <a class="wordmark" href="#top" aria-label="Marwan Hany home">
@@ -24,11 +35,16 @@
           <span>Marwan Hany</span>
         </a>
         <nav class="nav-links" aria-label="Primary navigation">
-          <a href="#contact">Contact</a>
+          <a href="#about">About</a>
           <a href="#apps">Apps</a>
           <a href="#relyqon" aria-label="RELYQON">
-            <img class="relyqon-brand relyqon-nav" src="assets/relyqon-logo.jpeg" alt="RELYQON logo" />
+            <img
+              class="relyqon-brand relyqon-nav"
+              src="assets/relyqon-logo-transparent.png"
+              alt="RELYQON logo"
+            />
           </a>
+          <a href="#contact">Contact</a>
         </nav>
         <a class="header-link" href="mailto:marwan.hany.habiba@gmail.com">
           <span class="status-dot"></span>
@@ -38,46 +54,68 @@
 
       <main id="top">
         <section class="hero-section">
-          <div class="hero-copy reveal">
-            <p class="eyebrow"><span>01</span> Personal portfolio</p>
-            <h1>Marwan<br /><em>Hany</em></h1>
+          <div class="hero-lockup">
+            <div class="hero-mark" role="img" aria-label="MH monogram">
+              <div class="hero-monogram" aria-hidden="true">
+                <span>M</span><span>H</span>
+              </div>
+              <canvas class="hero-particles" aria-hidden="true"></canvas>
+            </div>
+            <p class="hero-name">MARWAN HANY</p>
+            <p class="hero-role">CEO OF RELYQON</p>
+            <h1>ENGINEERING<br /><span>THE FUTURE</span></h1>
+            <p class="hero-intro">Software developer and CEO of RELYQON.</p>
             <div class="hero-actions">
-              <a class="button button-primary" href="#contact">
-                <span>Explore contact</span>
-                <span class="button-arrow">↘</span>
+              <a class="button button-primary" href="#apps">
+                <span>Explore apps</span>
+                <span class="button-arrow" aria-hidden="true">↘</span>
               </a>
-              <a class="text-link" href="https://github.com/Marwanh07" target="_blank" rel="noreferrer">
-                GitHub <span>↗</span>
+              <a class="button button-secondary" href="#about">
+                <span>About me</span>
+                <span class="button-arrow" aria-hidden="true">↘</span>
               </a>
             </div>
           </div>
+          <a class="hero-scroll" href="#about">
+            <span>Scroll to discover</span><i></i>
+          </a>
+        </section>
 
-          <div class="hero-visual reveal reveal-delay" aria-hidden="true">
-            <div class="orbital orbital-one"></div>
-            <div class="orbital orbital-two"></div>
-            <div class="orbital orbital-three"></div>
-            <div class="hero-grid"></div>
-            <div class="visual-label visual-label-bottom">MH — 01</div>
-            <div class="hero-monogram">MH<span>.</span></div>
+        <section class="about-section section-rule" id="about">
+          <div class="section-heading reveal">
+            <p class="eyebrow"><span>01</span> About</p>
+            <h2 class="section-title">A focus on<br /><em>what’s next.</em></h2>
+          </div>
+          <div class="about-panel reveal reveal-delay">
+            <h2 class="about-headline">I'm not here to follow the future.</h2>
+            <p class="about-support">
+              I'm here to build it. Software is the tool. Innovation is the mindset. Building something meaningful is the goal.
+            </p>
           </div>
         </section>
 
         <section class="contact-section section-rule" id="contact">
           <div class="section-heading reveal">
-            <p class="eyebrow"><span>02</span> Direct contact</p>
-            <h2>Stay<br /><em>connected.</em></h2>
+            <p class="eyebrow"><span>04</span> Direct contact</p>
+            <h2 class="section-title">Let’s<br /><em>connect.</em></h2>
+            <p class="section-note">For enquiries and conversation.</p>
           </div>
           <div class="contact-panel reveal reveal-delay">
             <a class="contact-row" href="mailto:marwan.hany.habiba@gmail.com">
               <span class="contact-label">Email</span>
               <span class="contact-value">marwan.hany.habiba@gmail.com</span>
-              <span class="contact-icon">↗</span>
+              <span class="contact-icon" aria-hidden="true">↗</span>
             </a>
-            <a class="contact-row" href="tel:01032135131">
+            <button
+              class="contact-row phone-choice-trigger"
+              type="button"
+              aria-haspopup="dialog"
+              aria-controls="phone-choice-dialog"
+            >
               <span class="contact-label">Mobile</span>
               <span class="contact-value">01032135131</span>
-              <span class="contact-icon">↗</span>
-            </a>
+              <span class="contact-icon" aria-hidden="true">↗</span>
+            </button>
             <a
               class="contact-row"
               href="https://www.linkedin.com/in/marwan-hany-614389276/"
@@ -86,7 +124,7 @@
             >
               <span class="contact-label">LinkedIn</span>
               <span class="contact-value">marwan-hany-614389276</span>
-              <span class="contact-icon">↗</span>
+              <span class="contact-icon" aria-hidden="true">↗</span>
             </a>
             <a
               class="contact-row"
@@ -96,7 +134,7 @@
             >
               <span class="contact-label">GitHub</span>
               <span class="contact-value">Marwanh07</span>
-              <span class="contact-icon">↗</span>
+              <span class="contact-icon" aria-hidden="true">↗</span>
             </a>
           </div>
         </section>
@@ -105,15 +143,19 @@
           <div class="company-intro reveal">
             <p class="eyebrow"><span>03</span> Company</p>
             <div class="company-title-row">
-              <img class="relyqon-brand relyqon-company" src="assets/relyqon-logo.jpeg" alt="RELYQON logo" />
-              <span class="company-index">/ 01</span>
+              <img
+                class="relyqon-brand relyqon-company"
+                src="assets/relyqon-logo-transparent.png"
+                alt="RELYQON logo"
+              />
+              <span class="company-index">01 / Company</span>
             </div>
           </div>
           <div class="company-details reveal reveal-delay">
             <a class="company-link" href="mailto:relyqonteam@gmail.com">
               <span class="contact-label">Email</span>
               <span>relyqonteam@gmail.com</span>
-              <span class="contact-icon">↗</span>
+              <span class="contact-icon" aria-hidden="true">↗</span>
             </a>
             <a
               class="company-link"
@@ -123,15 +165,16 @@
             >
               <span class="contact-label">LinkedIn</span>
               <span>relyqon01</span>
-              <span class="contact-icon">↗</span>
+              <span class="contact-icon" aria-hidden="true">↗</span>
             </a>
           </div>
         </section>
 
         <section class="apps-section section-rule" id="apps">
           <div class="apps-heading reveal">
-            <p class="eyebrow"><span>04</span> Apps</p>
-            <h2>Apps I’ve<br /><em>Created</em></h2>
+            <p class="eyebrow"><span>02</span> Apps</p>
+            <h2 class="section-title">Made to<br /><em>be useful.</em></h2>
+            <p class="section-note">A featured application.</p>
           </div>
           <a
             class="app-card reveal reveal-delay"
@@ -143,22 +186,50 @@
               <img src="assets/muslim-icon.png" alt="Muslim app icon" />
             </div>
             <div class="app-card-content">
+              <span class="app-card-kicker">Android app</span>
               <div class="app-card-header">
                 <h3>Muslim</h3>
                 <span class="released-badge"><span class="status-dot"></span>Released</span>
               </div>
-              <span class="download-button">Download Muslim <span>↗</span></span>
+              <span class="download-button">Download app <span aria-hidden="true">↗</span></span>
             </div>
           </a>
         </section>
+
       </main>
 
-      <footer class="site-footer">
+      <footer class="site-footer reveal">
         <span>Marwan Hany</span>
         <span class="footer-line"></span>
-        <span class="footer-brand"><img class="relyqon-brand relyqon-footer" src="assets/relyqon-logo.jpeg" alt="RELYQON logo" /></span>
+        <span class="footer-brand">
+          <img
+            class="relyqon-brand relyqon-footer"
+            src="assets/relyqon-logo-transparent.png"
+            alt="RELYQON logo"
+          />
+        </span>
       </footer>
     </div>
+    <dialog class="phone-choice-dialog" id="phone-choice-dialog" aria-labelledby="phone-choice-title">
+      <div class="phone-choice-content">
+        <button class="phone-choice-close" type="button" aria-label="Close contact options">×</button>
+        <p class="eyebrow">Mobile contact</p>
+        <h2 id="phone-choice-title">Choose how to connect</h2>
+        <a class="phone-choice-option" href="tel:01032135131">
+          <span>Call</span>
+          <span>01032135131</span>
+        </a>
+        <a
+          class="phone-choice-option"
+          href="https://wa.me/201032135131"
+          target="_blank"
+          rel="noreferrer"
+        >
+          <span>WhatsApp</span>
+          <span aria-hidden="true">↗</span>
+        </a>
+      </div>
+    </dialog>
     <script src="script.js"></script>
   </body>
 </html>
